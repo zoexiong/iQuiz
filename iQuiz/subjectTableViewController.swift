@@ -35,11 +35,10 @@ class subjectTableViewController: UITableViewController {
         let alertController:UIAlertController = {
             return UIAlertController(title: "Settings", message: "Settings goes here", preferredStyle: UIAlertControllerStyle.alert)
         }()
-        let okAlert:UIAlertAction = UIAlertAction(title: "ok", style: UIAlertActionStyle.cancel, handler:nil)
+        let okAlert:UIAlertAction = UIAlertAction(title: "ok", style: UIAlertActionStyle.cancel) { (alerrt: UIAlertAction!) -> Void in NSLog("You pressed button OK")}
         alertController.addAction(okAlert)
         self.present(alertController, animated: true, completion: nil);
     }
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
