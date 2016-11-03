@@ -16,6 +16,7 @@
 		4575DADB1DCBBFE6008E10A8 /* subjectTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4575DADA1DCBBFE6008E10A8 /* subjectTableViewCell.swift */; };
 		4575DADF1DCBC316008E10A8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4575DADE1DCBC316008E10A8 /* Assets.xcassets */; };
 		4575DAE11DCBC4DE008E10A8 /* subjectTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4575DAE01DCBC4DE008E10A8 /* subjectTableViewController.swift */; };
+		4575DAE51DCBD373008E10A8 /* settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4575DAE41DCBD373008E10A8 /* settings.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		4575DADA1DCBBFE6008E10A8 /* subjectTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = subjectTableViewCell.swift; path = ../subjectTableViewCell.swift; sourceTree = "<group>"; };
 		4575DADE1DCBC316008E10A8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4575DAE01DCBC4DE008E10A8 /* subjectTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = subjectTableViewController.swift; sourceTree = "<group>"; };
+		4575DAE41DCBD373008E10A8 /* settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = settings.swift; path = ../settings.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +108,7 @@
 				4575DAAC1DCBBBCB008E10A8 /* subject.swift */,
 				4575DADA1DCBBFE6008E10A8 /* subjectTableViewCell.swift */,
 				4575DAAE1DCBBBCB008E10A8 /* Main.storyboard */,
+				4575DAE41DCBD373008E10A8 /* settings.swift */,
 				4575DAE01DCBC4DE008E10A8 /* subjectTableViewController.swift */,
 				4575DAB31DCBBBCB008E10A8 /* LaunchScreen.storyboard */,
 				4575DAB61DCBBBCC008E10A8 /* Info.plist */,
@@ -272,6 +275,7 @@
 				4575DADB1DCBBFE6008E10A8 /* subjectTableViewCell.swift in Sources */,
 				4575DAAD1DCBBBCB008E10A8 /* subject.swift in Sources */,
 				4575DAAB1DCBBBCB008E10A8 /* AppDelegate.swift in Sources */,
+				4575DAE51DCBD373008E10A8 /* settings.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

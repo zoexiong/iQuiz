@@ -8,6 +8,8 @@
 
 import UIKit
 
+
+
 class subjectTableViewController: UITableViewController {
     
     // MARK: Properties
@@ -27,10 +29,18 @@ class subjectTableViewController: UITableViewController {
         subjects += [subject1,subject2,subject3]
     }
     
-    
+
+
+    @IBAction func alert(_ sender: AnyObject) {
+        let alertController:UIAlertController = {
+            return UIAlertController(title: "Settings", message: "Settings goes here", preferredStyle: UIAlertControllerStyle.alert)
+        }()
+        let okAlert:UIAlertAction = UIAlertAction(title: "ok", style: UIAlertActionStyle.cancel, handler:nil)
+        alertController.addAction(okAlert)
+        self.present(alertController, animated: true, completion: nil);
+    }
 
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -117,3 +127,4 @@ class subjectTableViewController: UITableViewController {
     */
 
 }
+

@@ -19,3 +19,4 @@ class Subject {
         self.subjectDescription = subjectDescription
     }
 }
+
