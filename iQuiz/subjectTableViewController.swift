@@ -29,16 +29,6 @@ class subjectTableViewController: UITableViewController {
         subjects += [subject1,subject2,subject3]
     }
     
-
-
-    @IBAction func alert(_ sender: AnyObject) {
-        let alertController:UIAlertController = {
-            return UIAlertController(title: "Settings", message: "Settings goes here", preferredStyle: UIAlertControllerStyle.alert)
-        }()
-        let okAlert:UIAlertAction = UIAlertAction(title: "ok", style: UIAlertActionStyle.cancel) { (alerrt: UIAlertAction!) -> Void in NSLog("You pressed button OK")}
-        alertController.addAction(okAlert)
-        self.present(alertController, animated: true, completion: nil);
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,7 +50,7 @@ class subjectTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return subjects.count
+        return subjects.count + 1
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -80,6 +70,20 @@ class subjectTableViewController: UITableViewController {
         return cell
     }
 
+    //alert for settings
+    @IBAction func alert(_ sender: AnyObject) {
+        
+        let alertController:UIAlertController = {
+            return UIAlertController(title: "Settings", message: "Settings goes here", preferredStyle: UIAlertControllerStyle.alert)
+        }()
+        
+        let okAlert:UIAlertAction = UIAlertAction(title: "ok", style: UIAlertActionStyle.cancel) { (alert: UIAlertAction!) -> Void in NSLog("You pressed button OK")}
+        
+        alertController.addAction(okAlert)
+        
+        self.present(alertController, animated: true, completion: nil);
+    }
+    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
