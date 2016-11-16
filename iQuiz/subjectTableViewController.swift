@@ -14,17 +14,37 @@ class subjectTableViewController: UITableViewController {
     
     // MARK: Properties
     
-    var subjects = [Subject]()
+    let questionSegueIdentifier = "showQuestionSegue"
+    
+    // MARK: - Navigation
+    
+    // example from http://www.codingexplorer.com/segue-uitableviewcell-taps-swift/
+    
+    open var subjects = [Subject]()
+    var questions1 = [Question]()
+    var questions2 = [Question]()
+    var questions3 = [Question]()
     
     func loadSampleSubjects() {
+        
         let photo1 = UIImage(named: "math")!
-        let subject1 = Subject("Math", "Rahhhhh!", photo1)
+        let question1_1 = Question("who invented caculous?",["Newton","Descartes","Leibnitz","Newton and Leibnitz"],"Newton and Leibnitz")
+        let question1_2 = Question("who did not invented caculous?",["Newton","Descartes","Leibnitz","Newton and Leibnitz"],"Descartes")
+        questions1 += [question1_1,question1_2]
+        let subject1 = Subject("Math", "Rahhhhh!", photo1, questions1)
+        
         
         let photo2 = UIImage(named: "science")!
-        let subject2 = Subject("Science", "Wowwww!", photo2)
+        let question2_1 = Question("who invented gramophone?",["","Descartes","Leibnitz","Newton and Leibnitz"],"Newton and Leibnitz")
+        let question2_2 = Question("who did not invented caculous?",["Newton","Descartes","Leibnitz","Newton and Leibnitz"],"Descartes")
+        questions2 += [question2_1,question2_2]
+        let subject2 = Subject("Science", "Wowwww!", photo2, questions2)
         
         let photo3 = UIImage(named: "marvel")!
-        let subject3 = Subject("Marvel", "Yeahhhhh!", photo3)
+        let question3_1 = Question("who is the author of ?",["Newton","","Leibnitz","Newton and Leibnitz"],"Newton and Leibnitz")
+        let question3_2 = Question("who did not invented caculous?",["Newton","Descartes","Leibnitz","Newton and Leibnitz"],"Descartes")
+        questions3 += [question3_1,question3_2]
+        let subject3 = Subject("Marvel", "Yeahhhhh!", photo3, questions3)
         
         subjects += [subject1,subject2,subject3]
     }
@@ -32,7 +52,6 @@ class subjectTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         // Load the sample data.
         loadSampleSubjects()
         
@@ -42,7 +61,19 @@ class subjectTableViewController: UITableViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if  segue.identifier == questionSegueIdentifier,
+            let destination = segue.destination as? questionViewController,
+            let subjectIndex = tableView.indexPathForSelectedRow?.row
+        {
+            destination.questions = subjects[subjectIndex].questions
+        }
 
+    }
+
+
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -69,6 +100,7 @@ class subjectTableViewController: UITableViewController {
         
         return cell
     }
+    
 
     //alert for settings
     @IBAction func alert(_ sender: AnyObject) {
