@@ -50,7 +50,7 @@ class subjectTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return subjects.count + 1
+        return subjects.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -65,7 +65,7 @@ class subjectTableViewController: UITableViewController {
         
         cell.titleLabel.text = subject.subjectTitle
         cell.iconImageView.image = subject.subjectIcon
-        cell.descriptionTextView.text = subject.subjectDescription
+        cell.descriptionLabelView.text = subject.subjectDescription
         
         return cell
     }
