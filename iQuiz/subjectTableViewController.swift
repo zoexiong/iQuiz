@@ -20,14 +20,23 @@ class subjectTableViewController: UITableViewController {
     
     // example from http://www.codingexplorer.com/segue-uitableviewcell-taps-swift/
     
-    
 
+    func do_table_refresh()
+    {
+        DispatchQueue.main.async(execute: {
+            self.tableView.reloadData()
+            return
+        })
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Load the sample data.
-        loadSampleSubjects()
-        
+        //      loadSampleSubjects()
+        loadSubjectsFromJson()
+        print("did load")
+        print(quizes)
+        do_table_refresh()
     }
 
     override func didReceiveMemoryWarning() {
@@ -38,11 +47,10 @@ class subjectTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if  segue.identifier == questionSegueIdentifier,
             let destination = segue.destination as? questionViewController,
-            let subjectIndex = tableView.indexPathForSelectedRow?.row
+            let quizIndex = tableView.indexPathForSelectedRow?.row
         {
-            destination.questions = subjects[subjectIndex].questions
+            destination.questions = quizes[quizIndex].questions
         }
-
     }
 
 
@@ -54,7 +62,7 @@ class subjectTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return subjects.count
+        return quizes.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -65,11 +73,11 @@ class subjectTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! subjectTableViewCell
         
         // Fetches the appropriate subject for the data source layout.
-        let subject = subjects[indexPath.row]
+        let quiz = quizes[indexPath.row]
         
-        cell.titleLabel.text = subject.subjectTitle
-        cell.iconImageView.image = subject.subjectIcon
-        cell.descriptionLabelView.text = subject.subjectDescription
+        cell.titleLabel.text = quiz.title
+        cell.iconImageView.image = quiz.icon
+        cell.descriptionLabelView.text = quiz.desc
         
         return cell
     }
