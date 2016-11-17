@@ -16,7 +16,8 @@ class questionViewController: UIViewController, UITableViewDataSource, UITableVi
     
     var questions = [Question]()
     var questionIndex = 0
-
+    public var nextButtonHideStatus: Bool = false
+    public var finishedButtonHideStatus: Bool = true
     
     override func viewWillAppear(_ animated: Bool) {
     questionLabel.text = questions[questionIndex].questionTitle
@@ -26,6 +27,9 @@ class questionViewController: UIViewController, UITableViewDataSource, UITableVi
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        print(questionIndex)
+        print(questions[0].questionTitle)
+        print(questions[1].questionTitle)
     }
 
     override func didReceiveMemoryWarning() {
@@ -66,6 +70,10 @@ class questionViewController: UIViewController, UITableViewDataSource, UITableVi
             destination.answerIndex = answerIndex
             destination.question = questions[questionIndex]
             destination.questionIndex = questionIndex
+            destination.questionsCount = questions.count
+            destination.questions = questions
+            destination.nextButtonHideStatus = nextButtonHideStatus
+            destination.finishedButtonHideStatus = finishedButtonHideStatus
         }
     }
 

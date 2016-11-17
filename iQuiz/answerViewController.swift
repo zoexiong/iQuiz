@@ -19,6 +19,10 @@ class answerViewController: UIViewController {
     var answerIndex = -1
     var questionIndex = 0
     var question = Question("",[],"")
+    var questionsCount = 0
+    var questions = [Question]()
+    public var nextButtonHideStatus: Bool = false
+    public var finishedButtonHideStatus: Bool = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,14 +37,46 @@ class answerViewController: UIViewController {
             tickLabel.text = "❌"
             yourAnswerLabel.textColor = UIColor.red
         }
+        nextButton.isHidden = nextButtonHideStatus
+        finishButton.isHidden = finishedButtonHideStatus
     
         // Do any additional setup after loading the view.
     }
 
-    @IBAction func nextButton(_ sender: AnyObject) {
-        questionIndex += 1
+    func goToNextQuestion(){
+//
     }
-
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if  segue.identifier == "nextQuestionSegue",
+            let destination = segue.destination as? questionViewController
+        {
+            destination.questionIndex = questionIndex
+            destination.questions = questions
+            destination.nextButtonHideStatus = nextButtonHideStatus
+            destination.finishedButtonHideStatus = finishedButtonHideStatus
+        }
+    }
+    
+    @IBOutlet weak var nextButton: UIButton!
+    @IBOutlet weak var finishButton: UIButton!
+    
+    @IBAction func nextButton(_ sender: AnyObject) {
+ //      nextButton.removeFromSuperview()
+        questionIndex += 1
+        if questionIndex < questionsCount-1{
+            nextButtonHideStatus = false
+            finishedButtonHideStatus = true
+        }else if questionIndex == questionsCount-1{
+            nextButtonHideStatus = true
+            finishedButtonHideStatus = false
+        }
+    }
+    
+    @IBAction func finishButton(_ sender: AnyObject) {
+        questionIndex = 0
+        nextButton.isHidden = false
+        finishButton.isHidden = true
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

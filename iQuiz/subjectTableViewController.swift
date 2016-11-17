@@ -43,7 +43,8 @@ class subjectTableViewController: UITableViewController {
         let photo3 = UIImage(named: "marvel")!
         let question3_1 = Question("who is the author of ?",["Newton","","Leibnitz","Newton and Leibnitz"],"Newton and Leibnitz")
         let question3_2 = Question("who did not invented caculous?",["Newton","Descartes","Leibnitz","Newton and Leibnitz"],"Descartes")
-        questions3 += [question3_1,question3_2]
+        let question3_3 = Question("test?",["Newton","Descartes","Leibnitz","Newton and Leibnitz"],"Descartes")
+        questions3 += [question3_1,question3_2,question3_3]
         let subject3 = Subject("Marvel", "Yeahhhhh!", photo3, questions3)
         
         subjects += [subject1,subject2,subject3]
