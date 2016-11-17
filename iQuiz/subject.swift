@@ -122,7 +122,6 @@ var tempQuestions = [Question]()
                                         tempQuiz = Quiz("","",nil,[])
                                         tempQuiz = Quiz(title,desc,nil,tempQuestions)
                                         quizes.append(tempQuiz)
-                                        print("append once!")
                                     }
                                 }
                             }

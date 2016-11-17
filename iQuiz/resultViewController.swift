@@ -10,7 +10,7 @@ import UIKit
 
 class resultViewController: UIViewController {
 
-    var correctAnswer = 0
+    var correctAnswerCount = 0
     var questionsCount = 0
     
     @IBOutlet weak var staticLabel: UILabel!
@@ -19,16 +19,16 @@ class resultViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if correctAnswer == questionsCount {
+        if correctAnswerCount == questionsCount {
             statusLabel.text = "Perfect"
-        } else if correctAnswer == 0{
+        } else if correctAnswerCount == 0{
             statusLabel.text = "Not good..."
-        } else if correctAnswer == questionsCount-1{
+        } else if correctAnswerCount == questionsCount-1{
             statusLabel.text = "Almost!"
         } else{
             statusLabel.text = "not bad!"
         }
-        staticLabel.text = "Your answered "+String(correctAnswer)+" questions correctly"
+        staticLabel.text = "Your answered "+String(correctAnswerCount)+" questions correctly"
         // Do any additional setup after loading the view.
         outOfLabel.text = "out of "+String(questionsCount)+" questions!"
     }

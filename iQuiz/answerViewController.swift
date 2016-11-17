@@ -21,20 +21,22 @@ class answerViewController: UIViewController {
     var question = Question("",[],"")
     var questionsCount = 0
     var questions = [Question]()
-    public var correctAnswer = 0
+    public var correctAnswerCount = 0
     public var nextButtonHideStatus: Bool = false
     public var finishedButtonHideStatus: Bool = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let correctAnswerText = question.options[Int(question.answer)!-1]
         questionLabel.text = question.questionTitle
         yourAnswerLabel.text = question.options[answerIndex]
-        correctAnswerLabel.text = question.answer
+        correctAnswerLabel.text = correctAnswerText
         correctAnswerLabel.textColor = UIColor.green
-        if question.answer == question.options[answerIndex]{
+        if  correctAnswerText == question.options[answerIndex]{
             tickLabel.text = "✅"
             yourAnswerLabel.textColor = UIColor.green
-            correctAnswer += 1
+            correctAnswerCount += 1
         }else{
             tickLabel.text = "❌"
             yourAnswerLabel.textColor = UIColor.red
@@ -59,12 +61,12 @@ class answerViewController: UIViewController {
             destination.questions = questions
             destination.nextButtonHideStatus = nextButtonHideStatus
             destination.finishedButtonHideStatus = finishedButtonHideStatus
-            destination.correctAnswer = correctAnswer
+            destination.correctAnswerCount = correctAnswerCount
         }
         if  segue.identifier == "resultSegue",
             let destination = segue.destination as? resultViewController
         {
-            destination.correctAnswer = correctAnswer
+            destination.correctAnswerCount = correctAnswerCount
             destination.questionsCount = questionsCount
         }
 
