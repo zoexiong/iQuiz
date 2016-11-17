@@ -16,6 +16,7 @@ class questionViewController: UIViewController, UITableViewDataSource, UITableVi
     
     var questions = [Question]()
     var questionIndex = 0
+    var correctAnswer = 0
     public var nextButtonHideStatus: Bool = false
     public var finishedButtonHideStatus: Bool = true
     
@@ -74,6 +75,7 @@ class questionViewController: UIViewController, UITableViewDataSource, UITableVi
             destination.questions = questions
             destination.nextButtonHideStatus = nextButtonHideStatus
             destination.finishedButtonHideStatus = finishedButtonHideStatus
+            destination.correctAnswer = correctAnswer
         }
     }
 

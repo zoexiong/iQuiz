@@ -21,6 +21,7 @@ class answerViewController: UIViewController {
     var question = Question("",[],"")
     var questionsCount = 0
     var questions = [Question]()
+    public var correctAnswer = 0
     public var nextButtonHideStatus: Bool = false
     public var finishedButtonHideStatus: Bool = true
     
@@ -33,6 +34,7 @@ class answerViewController: UIViewController {
         if question.answer == question.options[answerIndex]{
             tickLabel.text = "✅"
             yourAnswerLabel.textColor = UIColor.green
+            correctAnswer += 1
         }else{
             tickLabel.text = "❌"
             yourAnswerLabel.textColor = UIColor.red
@@ -43,9 +45,6 @@ class answerViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
 
-    func goToNextQuestion(){
-//
-    }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if  segue.identifier == "nextQuestionSegue",
             let destination = segue.destination as? questionViewController
@@ -54,8 +53,17 @@ class answerViewController: UIViewController {
             destination.questions = questions
             destination.nextButtonHideStatus = nextButtonHideStatus
             destination.finishedButtonHideStatus = finishedButtonHideStatus
+            destination.correctAnswer = correctAnswer
         }
+        if  segue.identifier == "resultSegue",
+            let destination = segue.destination as? resultViewController
+        {
+            destination.correctAnswer = correctAnswer
+            destination.questionsCount = questionsCount
+        }
+
     }
+
     
     @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var finishButton: UIButton!
