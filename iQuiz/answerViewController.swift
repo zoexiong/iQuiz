@@ -39,8 +39,14 @@ class answerViewController: UIViewController {
             tickLabel.text = "❌"
             yourAnswerLabel.textColor = UIColor.red
         }
+        
+        if questionsCount == 1{
+            nextButton.isHidden = true
+            finishButton.isHidden = false
+        }else{
         nextButton.isHidden = nextButtonHideStatus
         finishButton.isHidden = finishedButtonHideStatus
+        }
     
         // Do any additional setup after loading the view.
     }

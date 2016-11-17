@@ -6,6 +6,11 @@
 //  Copyright © 2016年 Just. All rights reserved.
 //
 
+////////////
+//Todo: Extra credits
+//and error handling when user did not select any answer option
+////////////
+
 import UIKit
 
 class questionViewController: UIViewController, UITableViewDataSource, UITableViewDelegate{
@@ -28,9 +33,6 @@ class questionViewController: UIViewController, UITableViewDataSource, UITableVi
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        print(questionIndex)
-        print(questions[0].questionTitle)
-        print(questions[1].questionTitle)
     }
 
     override func didReceiveMemoryWarning() {
