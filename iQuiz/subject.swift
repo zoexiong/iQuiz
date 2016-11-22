@@ -82,59 +82,5 @@ public func loadSampleSubjects() {
     subjects += [subject1,subject2,subject3]
 }
 
-var quizes = [Quiz]()
-var tempQuiz = Quiz("","",nil,[])
-var tempQuestions = [Question]()
-
-    //load data
-    public func loadSubjectsFromJson(){
-        // clear old data before load new data
-        quizes = [Quiz]()
-        let requestURL: NSURL = NSURL(string: "http://tednewardsandbox.site44.com/questions.json")!
-        let urlRequest: NSMutableURLRequest = NSMutableURLRequest(url: requestURL as URL)
-        let session = URLSession.shared
-        let task = session.dataTask(with: urlRequest as URLRequest) {
-            (data, response, error) -> Void in
-            let httpResponse = response as! HTTPURLResponse
-            let statusCode = httpResponse.statusCode
-            if (statusCode == 200) {
-                print("Everyone is fine, file downloaded successfully.")
-                do{
-                    let json = try JSONSerialization.jsonObject(with: data!, options:.allowFragments)
-                    if let jsonQuizes = json as? [[String:AnyObject]]{
-                        tempQuiz = Quiz("","",nil,[])
-                        for jsonQuiz in jsonQuizes {
-                            if let title = jsonQuiz["title"] as? String {
-                                if let desc = jsonQuiz["desc"] as? String{
-                                    if let questions = jsonQuiz["questions"] as? [[String:AnyObject]]{
-                                        tempQuestions = [Question]()
-                                        for question in questions{
-                                            if let text = question["text"] as? String{
-                                                if let answer = question["answer"] as? String{
-                                                    if let answers = question["answers"] as? [String]{
-                                                        var tempQuestion = Question(text,answers,answer)
-                                                        tempQuestions.append(tempQuestion)
-                                                        tempQuestion = Question("",[],"")
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        tempQuiz = Quiz("","",nil,[])
-                                        tempQuiz = Quiz(title,desc,nil,tempQuestions)
-                                        quizes.append(tempQuiz)
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }catch {
-                    print("Error with Json: \(error)")
-                }
-
-            }
-        }
-        task.resume()
-    }
-
 
 

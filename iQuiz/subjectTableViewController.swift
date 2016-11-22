@@ -10,6 +10,7 @@ import UIKit
 import Foundation
 
 
+
 class subjectTableViewController: UITableViewController {
     
     // MARK: Properties
@@ -20,23 +21,87 @@ class subjectTableViewController: UITableViewController {
     
     // example from http://www.codingexplorer.com/segue-uitableviewcell-taps-swift/
     
+    var quizes = [Quiz]()
+    var tempQuiz = Quiz("","",nil,[])
+    var tempQuestions = [Question]()
+    
+    //load data
+    public func loadSubjectsFromJson(){
+        // clear old data before load new data
+        quizes = [Quiz]()
+        let photo3 = UIImage(named: "math")!
+        let photo1 = UIImage(named: "science")!
+        let photo2 = UIImage(named: "marvel")!
+        let photos = [photo1,photo2,photo3]
+        var i=0
+        let requestURL: NSURL = NSURL(string: "http://tednewardsandbox.site44.com/questions.json")!
+        let urlRequest: NSMutableURLRequest = NSMutableURLRequest(url: requestURL as URL)
+        let session = URLSession.shared
+        let task = session.dataTask(with: urlRequest as URLRequest) {
+            (data, response, error) -> Void in
+            let httpResponse = response as! HTTPURLResponse
+            let statusCode = httpResponse.statusCode
+            if (statusCode == 200) {
+                print("downloaded successfully.")
+                do{
+                    let json = try JSONSerialization.jsonObject(with: data!, options:.allowFragments)
+                    if let jsonQuizes = json as? [[String:AnyObject]]{
+                        self.tempQuiz = Quiz("","",nil,[])
+                        for jsonQuiz in jsonQuizes {
+                            if let title = jsonQuiz["title"] as? String {
+                                if let desc = jsonQuiz["desc"] as? String{
+                                    if let questions = jsonQuiz["questions"] as? [[String:AnyObject]]{
+                                        self.tempQuestions = [Question]()
+                                        for question in questions{
+                                            if let text = question["text"] as? String{
+                                                if let answer = question["answer"] as? String{
+                                                    if let answers = question["answers"] as? [String]{
+                                                        var tempQuestion = Question(text,answers,answer)
+                                                        self.tempQuestions.append(tempQuestion)
+                                                        tempQuestion = Question("",[],"")
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        self.tempQuiz = Quiz("","",nil,[])
+                                        self.tempQuiz = Quiz(title,desc,photos[i],self.tempQuestions)
+                                        i += 1
+                                        self.quizes.append(self.tempQuiz)
+                                        print("add one quiz")
+                                        self.do_table_refresh()
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }catch {
+                    print("Error with Json: \(error)")
+                }
+                
+            }
+        }
+        task.resume()
+    }
+    
 
+    
     func do_table_refresh()
     {
         DispatchQueue.main.async(execute: {
             self.tableView.reloadData()
+            print("refreshed")
             return
         })
     }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Load the sample data.
         //      loadSampleSubjects()
         loadSubjectsFromJson()
-        print("did load")
-        print(quizes)
         do_table_refresh()
+        print(quizes)
     }
 
     override func didReceiveMemoryWarning() {
