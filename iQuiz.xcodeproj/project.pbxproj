@@ -21,6 +21,7 @@
 		45E29FFC1DDBE8C200D6CE30 /* questionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E29FFB1DDBE8C200D6CE30 /* questionViewController.swift */; };
 		45E29FFE1DDBEBAB00D6CE30 /* optionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E29FFD1DDBEBAB00D6CE30 /* optionTableViewCell.swift */; };
 		45E2A0001DDCEB0800D6CE30 /* answerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E29FFF1DDCEB0800D6CE30 /* answerViewController.swift */; };
+		49B716591DE6538800B5B4E0 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B716581DE6538800B5B4E0 /* Reachability.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,7 @@
 		45E29FFB1DDBE8C200D6CE30 /* questionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = questionViewController.swift; sourceTree = "<group>"; };
 		45E29FFD1DDBEBAB00D6CE30 /* optionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = optionTableViewCell.swift; sourceTree = "<group>"; };
 		45E29FFF1DDCEB0800D6CE30 /* answerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = answerViewController.swift; sourceTree = "<group>"; };
+		49B716581DE6538800B5B4E0 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +114,7 @@
 		4575DAA91DCBBBCB008E10A8 /* iQuiz */ = {
 			isa = PBXGroup;
 			children = (
+				49B716581DE6538800B5B4E0 /* Reachability.swift */,
 				4575DAAA1DCBBBCB008E10A8 /* AppDelegate.swift */,
 				4575DAAC1DCBBBCB008E10A8 /* subject.swift */,
 				4575DADA1DCBBFE6008E10A8 /* subjectTableViewCell.swift */,
@@ -291,6 +294,7 @@
 				45E2A0001DDCEB0800D6CE30 /* answerViewController.swift in Sources */,
 				45E29FFE1DDBEBAB00D6CE30 /* optionTableViewCell.swift in Sources */,
 				4575DAAB1DCBBBCB008E10A8 /* AppDelegate.swift in Sources */,
+				49B716591DE6538800B5B4E0 /* Reachability.swift in Sources */,
 				4575DAE51DCBD373008E10A8 /* settings.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

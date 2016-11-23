@@ -24,6 +24,39 @@ class subjectTableViewController: UITableViewController {
     var quizes = [Quiz]()
     var tempQuiz = Quiz("","",nil,[])
     var tempQuestions = [Question]()
+    var questions1 = [Question]()
+    var questions2 = [Question]()
+    var questions3 = [Question]()
+    
+    
+    public func loadSampleSubjects() {
+        //clear cache and out-dated data
+        quizes = [Quiz]()
+        questions1 = [Question]()
+        questions2 = [Question]()
+        questions3 = [Question]()
+        
+        let photo1 = UIImage(named: "math")!
+        let question1_1 = Question("who invented caculous?",["Newton","Descartes","Leibnitz","Newton and Leibnitz"],"4")
+        let question1_2 = Question("who did not invented caculous?",["Newton","Descartes","Leibnitz","Newton and Leibnitz"],"2")
+        questions1 += [question1_1,question1_2]
+        let quiz1 = Quiz("Math", "Rahhhhh!", photo1, questions1)
+        
+        
+        let photo2 = UIImage(named: "science")!
+        let question2_1 = Question("who invented gramophone?",["Edison","Descartes","Leibnitz","Newton and Leibnitz"],"1")
+        let question2_2 = Question("who discovered electromagnetic induction?",["Ferrari","Faraday","Lorentz","Ampere"],"2")
+        questions2 += [question2_1,question2_2]
+        let quiz2 = Quiz("Science", "Wowwww!", photo2, questions2)
+        
+        let photo3 = UIImage(named: "marvel")!
+        let question3_1 = Question("who is the author of Spider-man?",["Stan Lee","Steve Ditko","Stan Lee and Steve Ditko","Peter Parker"],"3")
+        questions3 += [question3_1]
+        let quiz3 = Quiz("Marvel", "Yeahhhhh!", photo3, questions3)
+        
+        quizes += [quiz1,quiz2,quiz3]
+        do_table_refresh()
+    }
     
     //load data
     public func loadSubjectsFromJson(){
@@ -94,14 +127,15 @@ class subjectTableViewController: UITableViewController {
         })
     }
 
+    var connectivity: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Load the sample data.
-        //      loadSampleSubjects()
-        loadSubjectsFromJson()
-        do_table_refresh()
-        print(quizes)
+        if connectivity{
+            loadSubjectsFromJson()
+        }else{
+            loadSampleSubjects()
+        }
     }
 
     override func didReceiveMemoryWarning() {
