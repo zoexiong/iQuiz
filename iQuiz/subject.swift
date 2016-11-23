@@ -35,8 +35,47 @@ class Quiz {
     }
 }
 
+var result: Bool = false
+public func checkConnectivity() -> Bool{
+    //declare this property where it won't go out of scope relative to your listener
+    let reachability = Reachability()!
 
-
+    reachability.whenReachable = { reachability in
+        // this is called on a background thread, but UI updates must
+        // be on the main thread, like this:
+        DispatchQueue.main.async(execute: {
+            if reachability.isReachableViaWiFi {
+                print("Reachable via WiFi")
+            } else {
+                print("Reachable via Cellular")
+            }
+        }
+        )
+    }
+    reachability.whenUnreachable = { reachability in
+        // this is called on a background thread, but UI updates must
+        // be on the main thread, like this:
+        DispatchQueue.main.async(execute:  {
+            print("No Internet connection, not reachable")
+            result = false
+        }
+        )
+    }
+    
+    do {
+        try reachability.startNotifier()
+    } catch {
+        print("Unable to start notifier")
+    }
+    
+    if reachability.isReachable{
+        result = true
+    } else{
+        result = false
+    }
+    
+    return result
+}
 
 
 

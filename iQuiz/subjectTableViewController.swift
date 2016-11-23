@@ -127,11 +127,10 @@ class subjectTableViewController: UITableViewController {
         })
     }
 
-    var connectivity: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if connectivity{
+        if checkConnectivity(){
             loadSubjectsFromJson()
         }else{
             loadSampleSubjects()
