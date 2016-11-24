@@ -24,12 +24,13 @@ class subjectTableViewController: UITableViewController {
     var quizes = [Quiz]()
     var tempQuiz = Quiz("","",nil,[])
     var tempQuestions = [Question]()
+    var newestQuizes = [Quiz]()
     var questions1 = [Question]()
     var questions2 = [Question]()
     var questions3 = [Question]()
     
     
-    public func loadSampleSubjects() {
+    public func loadSampleQuizes() {
         //clear cache and out-dated data
         quizes = [Quiz]()
         questions1 = [Question]()
@@ -58,8 +59,17 @@ class subjectTableViewController: UITableViewController {
         do_table_refresh()
     }
     
+    public func loadLocalQuizes(){
+        //need to create file to store the data and then retrieve it
+        if newestQuizes.count > 0{
+            quizes = newestQuizes
+        } else{
+            loadSampleQuizes()
+        }
+    }
+    
     //load data
-    public func loadSubjectsFromJson(){
+    public func loadQuizesFromJson(){
         // clear old data before load new data
         quizes = [Quiz]()
         let photo3 = UIImage(named: "math")!
@@ -114,6 +124,7 @@ class subjectTableViewController: UITableViewController {
             }
         }
         task.resume()
+        newestQuizes = quizes
     }
     
 
@@ -131,9 +142,9 @@ class subjectTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         if checkConnectivity(){
-            loadSubjectsFromJson()
+            loadQuizesFromJson()
         }else{
-            loadSampleSubjects()
+            loadLocalQuizes()
         }
     }
 
