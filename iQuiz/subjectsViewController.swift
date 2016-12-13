@@ -54,12 +54,23 @@ class subjectsViewController: UIViewController, UITableViewDataSource, UITableVi
     
     @IBAction func settingsButton(_ sender: Any) {
         let alertController:UIAlertController = {
-            return UIAlertController(title: "Settings", message: "Settings goes here", preferredStyle: UIAlertControllerStyle.alert)
+            return UIAlertController(title: "Settings", message: "Check new data now", preferredStyle: UIAlertControllerStyle.alert)
         }()
         
-        let okAlert:UIAlertAction = UIAlertAction(title: "ok", style: UIAlertActionStyle.cancel) { (alert: UIAlertAction!) -> Void in NSLog("You pressed button OK")}
+        let cancelAlert:UIAlertAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) { (alert: UIAlertAction!) -> Void in NSLog("You pressed button cancel")}
         
-        alertController.addAction(okAlert)
+        let refreshAlert:UIAlertAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.default) { (alert: UIAlertAction!) -> Void in
+            if checkConnectivity(){
+                self.loadQuizesFromJson()
+            }else{
+                self.loadLocalQuizes()
+                self.tableView.reloadData()
+            }
+            NSLog("You pressed button Yes")
+        }
+        
+        alertController.addAction(cancelAlert)
+        alertController.addAction(refreshAlert)
         
         self.present(alertController, animated: true, completion: nil);
 
@@ -269,6 +280,8 @@ class subjectsViewController: UIViewController, UITableViewDataSource, UITableVi
                                         i += 1
                                         self.quizes.append(self.tempQuiz)
                                         print("add one quiz")
+                                        
+                                        //refresh to show quiz in the table
                                         self.do_table_refresh()
 
 

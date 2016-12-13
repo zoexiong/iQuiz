@@ -69,9 +69,8 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0lj-QE-NTP">
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0lj-QE-NTP">
                                 <rect key="frame" x="11" y="632" width="57" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Settings"/>
                                 <connections>
                                     <action selector="settingsButton:" destination="vvN-iA-NWE" eventType="touchUpInside" id="sS7-lk-fPn"/>
@@ -80,7 +79,9 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="0lj-QE-NTP" firstAttribute="leading" secondItem="JQB-Fw-ucl" secondAttribute="leadingMargin" constant="11" id="1Rm-tw-JCz"/>
                             <constraint firstItem="mNf-bF-PQO" firstAttribute="leading" secondItem="JQB-Fw-ucl" secondAttribute="leading" id="6ln-RX-VQK"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="0lj-QE-NTP" secondAttribute="bottom" constant="5" id="RL6-jJ-FB0"/>
                             <constraint firstItem="mNf-bF-PQO" firstAttribute="top" secondItem="We3-st-wWd" secondAttribute="bottom" id="fgS-xr-Rv4"/>
                             <constraint firstAttribute="trailing" secondItem="mNf-bF-PQO" secondAttribute="trailing" id="hhq-qc-3ug"/>
                         </constraints>
@@ -376,6 +377,6 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="45U-OM-7yd"/>
-        <segue reference="ZRl-GM-ZQ8"/>
+        <segue reference="1w3-J9-ApJ"/>
     </inferredMetricsTieBreakers>
 </document>
