@@ -8,13 +8,16 @@
 
 import UIKit
 import Foundation
+import CoreData
 
 
 
 class subjectsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     
+   
     @IBOutlet weak var tableView: UITableView!
+    
     // MARK: Properties
     
     
@@ -28,10 +31,15 @@ class subjectsViewController: UIViewController, UITableViewDataSource, UITableVi
     var quizes = [Quiz]()
     var tempQuiz = Quiz("","",nil,[])
     var tempQuestions = [Question]()
-    var newestQuizes = [Quiz]()
     var questions1 = [Question]()
     var questions2 = [Question]()
     var questions3 = [Question]()
+    
+    //for local storage
+    var localQuizes = [NSManagedObject]()
+    
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,6 +50,19 @@ class subjectsViewController: UIViewController, UITableViewDataSource, UITableVi
         }
         tableView.delegate = self
         tableView.dataSource = self
+    }
+    
+    @IBAction func settingsButton(_ sender: Any) {
+        let alertController:UIAlertController = {
+            return UIAlertController(title: "Settings", message: "Settings goes here", preferredStyle: UIAlertControllerStyle.alert)
+        }()
+        
+        let okAlert:UIAlertAction = UIAlertAction(title: "ok", style: UIAlertActionStyle.cancel) { (alert: UIAlertAction!) -> Void in NSLog("You pressed button OK")}
+        
+        alertController.addAction(okAlert)
+        
+        self.present(alertController, animated: true, completion: nil);
+
     }
     
     public func loadSampleQuizes() {
@@ -75,8 +96,22 @@ class subjectsViewController: UIViewController, UITableViewDataSource, UITableVi
     
     public func loadLocalQuizes(){
         //need to create file to store the data and then retrieve it
-        if newestQuizes.count > 0{
-            quizes = newestQuizes
+        var tempQuizes:[Quiz] = []
+        var tempQuiz = Quiz("","",nil,[])
+        var tempTitle: String = ""
+        var tempIconName: String = ""
+        var tempDesc: String = ""
+        for quiz in localQuizes{
+            tempTitle = quiz.value(forKey: "quizTitle") as! String
+            tempIconName = quiz.value(forKey: "iconName") as! String
+            let tempIcon = UIImage(named: tempIconName)!
+            tempDesc = quiz.value(forKey: "desc") as! String
+            tempQuiz = Quiz(tempTitle,tempDesc,tempIcon,[])
+            tempQuizes.append(tempQuiz)
+            print("count: ",tempQuizes.count)
+        }
+        if tempQuizes.count > 0{
+            quizes = tempQuizes
         } else{
             loadSampleQuizes()
         }
@@ -90,6 +125,7 @@ class subjectsViewController: UIViewController, UITableViewDataSource, UITableVi
         let photo1 = UIImage(named: "science")!
         let photo2 = UIImage(named: "marvel")!
         let photos = [photo1,photo2,photo3]
+        let photoNames:[String] = ["science","marvel","math"]
         var i=0
         let requestURL: NSURL = NSURL(string: "http://tednewardsandbox.site44.com/questions.json")!
         let urlRequest: NSMutableURLRequest = NSMutableURLRequest(url: requestURL as URL)
@@ -122,10 +158,16 @@ class subjectsViewController: UIViewController, UITableViewDataSource, UITableVi
                                         }
                                         self.tempQuiz = Quiz("","",nil,[])
                                         self.tempQuiz = Quiz(title,desc,photos[i],self.tempQuestions)
+                                        //store quiz to local storage
+                                        let photoName = photoNames[i]
+                                        self.storeQuizToLocal()
+                                        
+                                        //store in memory
                                         i += 1
                                         self.quizes.append(self.tempQuiz)
                                         print("add one quiz")
                                         self.do_table_refresh()
+
                                     }
                                 }
                             }
@@ -138,9 +180,29 @@ class subjectsViewController: UIViewController, UITableViewDataSource, UITableVi
             }
         }
         task.resume()
-        newestQuizes = quizes
     }
     
+    func storeQuizToLocal(title:String,desc:String,iconName:String){
+
+        let appDelegate = UIApplication.shared.delegate  as! AppDelegate
+        let managedContext = appDelegate.managedObjectContext
+
+        let entity = NSEntityDescription.entity(forEntityName: "LocalQuiz", in: managedContext)
+        let localQuiz = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
+        
+        localQuiz.setValue(title, forKey: "quizTitle")
+        localQuiz.setValue(desc,forKey:"desc")
+        localQuiz.setValue(iconName, forKey: "iconName")
+        
+        do {
+            try managedContext.save()
+            //5
+            localQuizes.append(localQuiz)
+        } catch let error as NSError  {
+            print("Could not save \(error), \(error.userInfo)")
+        }
+        
+    }
     
     
     func do_table_refresh()
@@ -198,21 +260,6 @@ class subjectsViewController: UIViewController, UITableViewDataSource, UITableVi
         
         return cell
     }
-    
-    
-    //alert for settings
-    //    @IBAction func alert(_ sender: AnyObject) {
-    //
-    //        let alertController:UIAlertController = {
-    //            return UIAlertController(title: "Settings", message: "Settings goes here", preferredStyle: UIAlertControllerStyle.alert)
-    //        }()
-    //
-    //        let okAlert:UIAlertAction = UIAlertAction(title: "ok", style: UIAlertActionStyle.cancel) { (alert: UIAlertAction!) -> Void in NSLog("You pressed button OK")}
-    //
-    //        alertController.addAction(okAlert)
-    //
-    //        self.present(alertController, animated: true, completion: nil);
-    //    }
     
     /*
      // Override to support conditional editing of the table view.

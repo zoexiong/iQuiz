@@ -22,6 +22,7 @@ class Question{
 
 
 class Quiz {
+
     var title: String
     var desc: String
     var icon: UIImage?
