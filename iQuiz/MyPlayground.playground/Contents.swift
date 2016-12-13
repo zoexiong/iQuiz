@@ -4,6 +4,3 @@ import UIKit
 
 
 
-
-var dict = [String:[String]]()
-print(dict["a"])
