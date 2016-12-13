@@ -25,6 +25,10 @@ class questionViewController: UIViewController, UITableViewDataSource, UITableVi
     public var nextButtonHideStatus: Bool = false
     public var finishedButtonHideStatus: Bool = true
     
+    @IBOutlet weak var submitButton: UIButton!
+    
+//    var submitButton.isEnabled = false
+    
     override func viewWillAppear(_ animated: Bool) {
         print(questions.count)
     questionLabel.text = questions[questionIndex].questionTitle
@@ -34,6 +38,8 @@ class questionViewController: UIViewController, UITableViewDataSource, UITableVi
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        //disable submit button when loaded to prevent user from press it without choose answer
+        submitButton.isEnabled = false
     }
 
     override func didReceiveMemoryWarning() {
@@ -66,7 +72,18 @@ class questionViewController: UIViewController, UITableViewDataSource, UITableVi
         return cell
     }
     
+    //when user choose an answer, enable the submit button
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        submitButton.isEnabled = true
+    }
+    
+    //when deselect an answer, disable the submit button
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        submitButton.isEnabled = false
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+       
         if  segue.identifier == "questionToAnswerSegue",
             let destination = segue.destination as? answerViewController,
             let answerIndex = tableView.indexPathForSelectedRow?.row
