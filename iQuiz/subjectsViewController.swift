@@ -14,7 +14,7 @@ import CoreData
 
 class subjectsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    
+    var refresher: UIRefreshControl!
    
     @IBOutlet weak var tableView: UITableView!
     
@@ -41,15 +41,24 @@ class subjectsViewController: UIViewController, UITableViewDataSource, UITableVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if checkConnectivity(){
-            loadQuizesFromJson()
-        }else{
-            
-            loadLocalQuizes()
-            tableView.reloadData()
-        }
+        loadData()
+        
         tableView.delegate = self
         tableView.dataSource = self
+        
+        refresher = UIRefreshControl()
+        refresher.attributedTitle = NSAttributedString(string: "Pull to Refresh")
+        
+        refresher.addTarget(self, action: #selector(subjectsViewController.refresh), for: UIControlEvents.valueChanged)
+        tableView.addSubview(refresher)
+        
+        refresher.endRefreshing()
+    }
+    
+    func refresh() {
+        loadData()
+        self.tableView.reloadData()
+        refresher.endRefreshing()
     }
     
     @IBAction func settingsButton(_ sender: Any) {
@@ -60,12 +69,7 @@ class subjectsViewController: UIViewController, UITableViewDataSource, UITableVi
         let cancelAlert:UIAlertAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) { (alert: UIAlertAction!) -> Void in NSLog("You pressed button cancel")}
         
         let refreshAlert:UIAlertAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.default) { (alert: UIAlertAction!) -> Void in
-            if checkConnectivity(){
-                self.loadQuizesFromJson()
-            }else{
-                self.loadLocalQuizes()
-                self.tableView.reloadData()
-            }
+            self.loadData()
             NSLog("You pressed button Yes")
         }
         
@@ -74,6 +78,15 @@ class subjectsViewController: UIViewController, UITableViewDataSource, UITableVi
         
         self.present(alertController, animated: true, completion: nil);
 
+    }
+    
+    func loadData(){
+        if checkConnectivity(){
+            self.loadQuizesFromJson()
+        }else{
+            self.loadLocalQuizes()
+            self.tableView.reloadData()
+        }
     }
     
     public func loadSampleQuizes() {
