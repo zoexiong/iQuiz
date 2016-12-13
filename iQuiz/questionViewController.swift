@@ -26,6 +26,7 @@ class questionViewController: UIViewController, UITableViewDataSource, UITableVi
     public var finishedButtonHideStatus: Bool = true
     
     override func viewWillAppear(_ animated: Bool) {
+        print(questions.count)
     questionLabel.text = questions[questionIndex].questionTitle
     }
     

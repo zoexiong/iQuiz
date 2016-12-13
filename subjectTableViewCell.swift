@@ -2,20 +2,19 @@
 //  subjectTableViewCell.swift
 //  iQuiz
 //
-//  Created by Just on 16/11/3.
+//  Created by Just on 16/12/12.
 //  Copyright © 2016年 Just. All rights reserved.
 //
 
 import UIKit
 
 class subjectTableViewCell: UITableViewCell {
-    
-    // MARK: Properties
 
-    @IBOutlet weak var descriptionLabelView: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
+    
     @IBOutlet weak var iconImageView: UIImageView!
-
+    
+    @IBOutlet weak var descriptionLabelView: UILabel!
     
     
     override func awakeFromNib() {
