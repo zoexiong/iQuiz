@@ -35,9 +35,6 @@ class subjectsViewController: UIViewController, UITableViewDataSource, UITableVi
     var questions2 = [Question]()
     var questions3 = [Question]()
     
-    //for local storage
-    var localQuizes = [NSManagedObject]()
-    
     
     
     
@@ -47,6 +44,7 @@ class subjectsViewController: UIViewController, UITableViewDataSource, UITableVi
             loadQuizesFromJson()
         }else{
             loadLocalQuizes()
+            tableView.reloadData()
         }
         tableView.delegate = self
         tableView.dataSource = self
@@ -94,25 +92,67 @@ class subjectsViewController: UIViewController, UITableViewDataSource, UITableVi
         do_table_refresh()
     }
     
+    func getContext () -> NSManagedObjectContext {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        return appDelegate.persistentContainer.viewContext
+    }
+    
+    func deleteAllData(entity: String)
+    {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entity)
+        fetchRequest.returnsObjectsAsFaults = false
+        
+        do
+        {
+            let results = try context.fetch(fetchRequest)
+            for managedObject in results
+            {
+                let managedObjectData:NSManagedObject = managedObject as! NSManagedObject
+                context.delete(managedObjectData)
+            }
+        } catch let error as NSError {
+            print("Detele all data in \(entity) error : \(error) \(error.userInfo)")
+        }
+    }
+    
     public func loadLocalQuizes(){
-        //need to create file to store the data and then retrieve it
+        //clear history before load new data
+
+        
         var tempQuizes:[Quiz] = []
         var tempQuiz = Quiz("","",nil,[])
         var tempTitle: String = ""
         var tempIconName: String = ""
         var tempDesc: String = ""
-        for quiz in localQuizes{
-            tempTitle = quiz.value(forKey: "quizTitle") as! String
-            tempIconName = quiz.value(forKey: "iconName") as! String
-            let tempIcon = UIImage(named: tempIconName)!
-            tempDesc = quiz.value(forKey: "desc") as! String
-            tempQuiz = Quiz(tempTitle,tempDesc,tempIcon,[])
-            tempQuizes.append(tempQuiz)
-            print("count: ",tempQuizes.count)
-        }
-        if tempQuizes.count > 0{
-            quizes = tempQuizes
-        } else{
+        
+        //create a fetch request, telling it about the entity
+        let fetchRequest: NSFetchRequest<AAALocalQuiz> = AAALocalQuiz.fetchRequest()
+        
+        do {
+            //go get the results
+            let searchResults = try getContext().fetch(fetchRequest)
+            
+            //I like to check the size of the returned results!
+            print ("num of results = \(searchResults.count)")
+            
+            //You need to convert to NSManagedObject to use 'for' loops
+            for quiz in searchResults as [NSManagedObject] {
+                            tempTitle = quiz.value(forKey: "quizTitle") as! String
+                            tempIconName = quiz.value(forKey: "iconName") as! String
+                            let tempIcon = UIImage(named: tempIconName)!
+                            tempDesc = quiz.value(forKey: "desc") as! String
+                            tempQuiz = Quiz(tempTitle,tempDesc,tempIcon,[])
+                            tempQuizes.append(tempQuiz)
+                            print("count: ",tempQuizes.count)
+                            tableView.reloadData()
+            }
+            if tempQuizes.count > 0{
+                quizes = tempQuizes
+            }
+        } catch {
+            print("Error with request: \(error)")
             loadSampleQuizes()
         }
     }
@@ -127,6 +167,8 @@ class subjectsViewController: UIViewController, UITableViewDataSource, UITableVi
         let photos = [photo1,photo2,photo3]
         let photoNames:[String] = ["science","marvel","math"]
         var i=0
+        self.deleteAllData(entity: "LocalQuiz")
+        
         let requestURL: NSURL = NSURL(string: "http://tednewardsandbox.site44.com/questions.json")!
         let urlRequest: NSMutableURLRequest = NSMutableURLRequest(url: requestURL as URL)
         let session = URLSession.shared
@@ -160,13 +202,14 @@ class subjectsViewController: UIViewController, UITableViewDataSource, UITableVi
                                         self.tempQuiz = Quiz(title,desc,photos[i],self.tempQuestions)
                                         //store quiz to local storage
                                         let photoName = photoNames[i]
-                                        self.storeQuizToLocal()
+                                        self.storeQuizToLocal(title,desc,photoName)
                                         
                                         //store in memory
                                         i += 1
                                         self.quizes.append(self.tempQuiz)
                                         print("add one quiz")
                                         self.do_table_refresh()
+
 
                                     }
                                 }
@@ -182,22 +225,23 @@ class subjectsViewController: UIViewController, UITableViewDataSource, UITableVi
         task.resume()
     }
     
-    func storeQuizToLocal(title:String,desc:String,iconName:String){
-
-        let appDelegate = UIApplication.shared.delegate  as! AppDelegate
-        let managedContext = appDelegate.managedObjectContext
-
-        let entity = NSEntityDescription.entity(forEntityName: "LocalQuiz", in: managedContext)
-        let localQuiz = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
+    func storeQuizToLocal(_ title:String,_ desc:String,_ iconName:String){
         
-        localQuiz.setValue(title, forKey: "quizTitle")
-        localQuiz.setValue(desc,forKey:"desc")
-        localQuiz.setValue(iconName, forKey: "iconName")
+        
+        let appDelegate = UIApplication.shared.delegate  as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        
+        //let entity = NSEntityDescription.entity(forEntityName: "LocalQuiz", in: context)
+        //let localQuiz = NSManagedObject(entity: entity!, insertInto: context)
+        let localQuiz = NSEntityDescription.insertNewObject(forEntityName: "LocalQuiz", into: context) as! AAALocalQuiz
+        
+                localQuiz.setValue(title, forKey: "quizTitle")
+                localQuiz.setValue(desc,forKey:"desc")
+                localQuiz.setValue(iconName, forKey: "iconName")
         
         do {
-            try managedContext.save()
-            //5
-            localQuizes.append(localQuiz)
+            try context.save()
+            print("appended!")
         } catch let error as NSError  {
             print("Could not save \(error), \(error.userInfo)")
         }

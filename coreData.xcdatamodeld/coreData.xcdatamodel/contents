@@ -6,7 +6,7 @@
         <attribute name="quizTitle" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
-    <entity name="LocalQuiz" representedClassName="LocalQuiz" syncable="YES" codeGenerationType="class">
+    <entity name="LocalQuiz" representedClassName="AAALocalQuiz" syncable="YES" codeGenerationType="class">
         <attribute name="desc" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="iconName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="quizTitle" optional="YES" attributeType="String" customClassName="question" syncable="YES"/>

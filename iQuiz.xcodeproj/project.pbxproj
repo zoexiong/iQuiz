@@ -17,7 +17,7 @@
 		4575DAE51DCBD373008E10A8 /* settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4575DAE41DCBD373008E10A8 /* settings.swift */; };
 		457699E61DFF8A0500B043DC /* subjectsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457699E51DFF8A0500B043DC /* subjectsViewController.swift */; };
 		457699E81DFF8FD600B043DC /* subjectTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457699E71DFF8FD600B043DC /* subjectTableViewCell.swift */; };
-		457699EB1DFFBC1A00B043DC /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 457699E91DFFBC1A00B043DC /* Model.xcdatamodeld */; };
+		457699EB1DFFBC1A00B043DC /* coreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 457699E91DFFBC1A00B043DC /* coreData.xcdatamodeld */; };
 		45AA0A151DDD120300D79FB3 /* resultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45AA0A141DDD120300D79FB3 /* resultViewController.swift */; };
 		45E29FFC1DDBE8C200D6CE30 /* questionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E29FFB1DDBE8C200D6CE30 /* questionViewController.swift */; };
 		45E29FFE1DDBEBAB00D6CE30 /* optionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E29FFD1DDBEBAB00D6CE30 /* optionTableViewCell.swift */; };
@@ -59,7 +59,7 @@
 		4575DAE41DCBD373008E10A8 /* settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = settings.swift; path = ../settings.swift; sourceTree = "<group>"; };
 		457699E51DFF8A0500B043DC /* subjectsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = subjectsViewController.swift; sourceTree = "<group>"; };
 		457699E71DFF8FD600B043DC /* subjectTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = subjectTableViewCell.swift; sourceTree = "<group>"; };
-		457699EA1DFFBC1A00B043DC /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		457699EA1DFFBC1A00B043DC /* coreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = coreData.xcdatamodel; sourceTree = "<group>"; };
 		45AA0A141DDD120300D79FB3 /* resultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = resultViewController.swift; sourceTree = "<group>"; };
 		45E29FFB1DDBE8C200D6CE30 /* questionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = questionViewController.swift; sourceTree = "<group>"; };
 		45E29FFD1DDBEBAB00D6CE30 /* optionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = optionTableViewCell.swift; sourceTree = "<group>"; };
@@ -95,7 +95,7 @@
 		4575DA9E1DCBBBCB008E10A8 = {
 			isa = PBXGroup;
 			children = (
-				457699E91DFFBC1A00B043DC /* Model.xcdatamodeld */,
+				457699E91DFFBC1A00B043DC /* coreData.xcdatamodeld */,
 				457699E71DFF8FD600B043DC /* subjectTableViewCell.swift */,
 				4575DAA91DCBBBCB008E10A8 /* iQuiz */,
 				4575DADE1DCBC316008E10A8 /* Assets.xcassets */,
@@ -298,7 +298,7 @@
 				457699E81DFF8FD600B043DC /* subjectTableViewCell.swift in Sources */,
 				49B716591DE6538800B5B4E0 /* Reachability.swift in Sources */,
 				4575DAE51DCBD373008E10A8 /* settings.swift in Sources */,
-				457699EB1DFFBC1A00B043DC /* Model.xcdatamodeld in Sources */,
+				457699EB1DFFBC1A00B043DC /* coreData.xcdatamodeld in Sources */,
 				457699E61DFF8A0500B043DC /* subjectsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -573,13 +573,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		457699E91DFFBC1A00B043DC /* Model.xcdatamodeld */ = {
+		457699E91DFFBC1A00B043DC /* coreData.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				457699EA1DFFBC1A00B043DC /* Model.xcdatamodel */,
+				457699EA1DFFBC1A00B043DC /* coreData.xcdatamodel */,
 			);
-			currentVersion = 457699EA1DFFBC1A00B043DC /* Model.xcdatamodel */;
-			path = Model.xcdatamodeld;
+			currentVersion = 457699EA1DFFBC1A00B043DC /* coreData.xcdatamodel */;
+			path = coreData.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
