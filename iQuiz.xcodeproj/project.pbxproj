@@ -43,6 +43,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4539F7F21E009582006B233B /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground.playground; sourceTree = "<group>"; };
 		4575DAA71DCBBBCB008E10A8 /* iQuiz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iQuiz.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4575DAAA1DCBBBCB008E10A8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4575DAAC1DCBBBCB008E10A8 /* subject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = subject.swift; sourceTree = "<group>"; };
@@ -127,6 +128,7 @@
 				45E29FFB1DDBE8C200D6CE30 /* questionViewController.swift */,
 				45E29FFF1DDCEB0800D6CE30 /* answerViewController.swift */,
 				457699E51DFF8A0500B043DC /* subjectsViewController.swift */,
+				4539F7F21E009582006B233B /* MyPlayground.playground */,
 				4575DAE41DCBD373008E10A8 /* settings.swift */,
 				4575DAB31DCBBBCB008E10A8 /* LaunchScreen.storyboard */,
 				4575DAB61DCBBBCC008E10A8 /* Info.plist */,

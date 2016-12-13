@@ -29,6 +29,7 @@ class subjectsViewController: UIViewController, UITableViewDataSource, UITableVi
     // example from http://www.codingexplorer.com/segue-uitableviewcell-taps-swift/
     
     var quizes = [Quiz]()
+    var questionsDict = [String:[Question]]()
     var tempQuiz = Quiz("","",nil,[])
     var tempQuestions = [Question]()
     var questions1 = [Question]()
@@ -43,6 +44,7 @@ class subjectsViewController: UIViewController, UITableViewDataSource, UITableVi
         if checkConnectivity(){
             loadQuizesFromJson()
         }else{
+            
             loadLocalQuizes()
             tableView.reloadData()
         }
@@ -101,6 +103,7 @@ class subjectsViewController: UIViewController, UITableViewDataSource, UITableVi
     {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
+        
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entity)
         fetchRequest.returnsObjectsAsFaults = false
         
@@ -118,8 +121,9 @@ class subjectsViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     public func loadLocalQuizes(){
-        //clear history before load new data
 
+        //load questions first
+        loadLocalQuestions()
         
         var tempQuizes:[Quiz] = []
         var tempQuiz = Quiz("","",nil,[])
@@ -146,14 +150,66 @@ class subjectsViewController: UIViewController, UITableViewDataSource, UITableVi
                             tempQuiz = Quiz(tempTitle,tempDesc,tempIcon,[])
                             tempQuizes.append(tempQuiz)
                             print("count: ",tempQuizes.count)
-                            tableView.reloadData()
+                            //tableView.reloadData()
             }
             if tempQuizes.count > 0{
                 quizes = tempQuizes
+                //add questions to quizes
+                for quiz in quizes{
+                    quiz.questions = questionsDict[quiz.title]!
+                    tableView.reloadData()
+                }
             }
         } catch {
             print("Error with request: \(error)")
             loadSampleQuizes()
+        }
+    }
+    
+    public func loadLocalQuestions(){
+        //clear history before load new data
+        
+        
+        var tempQuestion:Question = Question("",[],"")
+        var tempDict = [String:[Question]]()
+        var tempTitle: String = ""
+        var tempQuizTitle:String = ""
+        var tempOptions: String = ""
+        var tempAnswer: String = ""
+        
+        //create a fetch request, telling it about the entity
+        let fetchRequest: NSFetchRequest<AAALocalQuestion> = AAALocalQuestion.fetchRequest()
+        
+        do {
+            //go get the results
+            let searchResults = try getContext().fetch(fetchRequest)
+            
+            //I like to check the size of the returned results!
+            print ("num of results = \(searchResults.count)")
+            
+            //You need to convert to NSManagedObject to use 'for' loops
+            for question in searchResults as [NSManagedObject] {
+                tempQuizTitle = question.value(forKey: "quizTitle") as! String
+                tempTitle = question.value(forKey: "title") as! String
+                tempOptions = question.value(forKey: "options") as! String
+                let tempAnwers = tempOptions.characters.split{$0 == ","}.map(String.init)
+                tempAnswer = question.value(forKey: "answer") as! String
+                tempQuestion = Question(tempTitle,tempAnwers,tempAnswer)
+                
+                //add question to dictionary
+                if tempDict[tempQuizTitle] == nil{
+                    tempDict[tempQuizTitle]=[tempQuestion]
+                }else{
+                    tempDict[tempQuizTitle]?.append(tempQuestion)
+                }
+
+                print("one question loaded")
+            }
+            if tempDict.count > 0{
+                questionsDict = tempDict
+            }
+        } catch {
+            print("Error with request: \(error)")
         }
     }
     
@@ -167,7 +223,9 @@ class subjectsViewController: UIViewController, UITableViewDataSource, UITableVi
         let photos = [photo1,photo2,photo3]
         let photoNames:[String] = ["science","marvel","math"]
         var i=0
+        //clear coreData to load new data
         self.deleteAllData(entity: "LocalQuiz")
+        self.deleteAllData(entity: "LocalQuestion")
         
         let requestURL: NSURL = NSURL(string: "http://tednewardsandbox.site44.com/questions.json")!
         let urlRequest: NSMutableURLRequest = NSMutableURLRequest(url: requestURL as URL)
@@ -192,6 +250,9 @@ class subjectsViewController: UIViewController, UITableViewDataSource, UITableVi
                                                 if let answer = question["answer"] as? String{
                                                     if let answers = question["answers"] as? [String]{
                                                         var tempQuestion = Question(text,answers,answer)
+                                                        //store question to coreData
+                                                        self.storeQuestionToLocal(text,answers,answer,title)
+                                                        //store question to memory
                                                         self.tempQuestions.append(tempQuestion)
                                                         tempQuestion = Question("",[],"")
                                                     }
@@ -231,17 +292,53 @@ class subjectsViewController: UIViewController, UITableViewDataSource, UITableVi
         let appDelegate = UIApplication.shared.delegate  as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
         
-        //let entity = NSEntityDescription.entity(forEntityName: "LocalQuiz", in: context)
-        //let localQuiz = NSManagedObject(entity: entity!, insertInto: context)
+        //store data to quiz entity
         let localQuiz = NSEntityDescription.insertNewObject(forEntityName: "LocalQuiz", into: context) as! AAALocalQuiz
         
                 localQuiz.setValue(title, forKey: "quizTitle")
                 localQuiz.setValue(desc,forKey:"desc")
                 localQuiz.setValue(iconName, forKey: "iconName")
         
+        localQuiz.setValue(title, forKey: "quizTitle")
+        localQuiz.setValue(desc,forKey:"desc")
+        localQuiz.setValue(iconName, forKey: "iconName")
+        
         do {
             try context.save()
             print("appended!")
+        } catch let error as NSError  {
+            print("Could not save \(error), \(error.userInfo)")
+        }
+        
+    }
+    
+    func storeQuestionToLocal(_ title:String,_ answers:[String],_ answer:String,_ quizTitle:String){
+        
+        let appDelegate = UIApplication.shared.delegate  as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        
+        //store qustion to quiz entity
+        let localQuestion = NSEntityDescription.insertNewObject(forEntityName: "LocalQuestion", into: context) as! AAALocalQuestion
+        
+        var options = ""
+        var i=0
+        for option in answers{
+            if i == 0{
+                options = options + option
+            }else{
+                options = options + "," + option
+            }
+            i += 1
+        }
+        
+        localQuestion.setValue(quizTitle, forKey: "quizTitle")
+        localQuestion.setValue(options,forKey:"options")
+        localQuestion.setValue(title, forKey: "title")
+        localQuestion.setValue(answer,forKey: "answer")
+        
+        do {
+            try context.save()
+            print("question appended!")
         } catch let error as NSError  {
             print("Could not save \(error), \(error.userInfo)")
         }
